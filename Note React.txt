@@ -1,0 +1,266 @@
+===================================================================================================================================================
+
+Note React JS
+M Reza Khalafi Notes
+13/02/2023
+
+===================================================================================================================================================
+
+<?= 1. Structure ?>
+
+    node_modules = Berisi file NPM, gausah dimodifikasi
+    public = Berisi file yang terbuka public seperti assets/ js/ images/ untuk dimasukan ke hosting folder public_html
+    src = Berisi file core dari react JS
+    Bisa hapus semua file di dalam src, hanya sisakan App.js dan index.js
+
+<?= 2. Menampilkan variabel ?>
+
+    deklarasikan di dalam function App()
+    let nama = "Reza"
+    dan tampilkan di dalam return
+    <h1> { nama } </h1>
+
+<?= 3. Menampilkan components ?>
+
+    buat file di dalam src, boleh di dalam folder juga dan isi dengan function
+    let Header = () => {
+        return "<h1>Ini Header</h1>"
+    }
+    export default Header
+    deklarasikan import pada file yang ingin menggunakannya
+    import Header from './components/Header'
+    panggil nama function pada return dan pada posisi yang diinginkan
+    <div className="App">
+      <Header />
+    </div>
+
+<?= 4. Struktur function ?>
+
+    yang tadinya
+    function getName(){
+        return 0;
+    }
+    menjadi arrow function ES 6
+    let getName = () => {
+        return 0;
+    }
+    atau bisa ketikan 'rafce / rafc' dan enter pada viscode
+
+<?= 5. Onclick function ?>
+
+    buat function di dalam function App()
+    let showConsole = () => {
+        return 0;
+    }
+    buat button di return
+    <button onClick={ () => showConsole }>
+    () => harus digunakan pada react pemanggilan function
+
+<?= 6. UseState ?>
+
+    import dulu dari library
+    import { useState } from 'react';
+    deklarasikan di dalam function App()
+    const [title, setTitle] = useState("Welcome to my App") = [nama variabel, nama function] = useState("Default parameter")
+    panggil functionnya
+    setTitle("Judul Baru");
+
+<?= 7. Deklarasi array ?>
+
+    pada variabel biasa
+    const products = [
+        { id: 1, title: 'Buah', price: 50000},
+        { id: 2, title: 'Beras', price: 122000}
+    ];
+    pada useState
+    const [products, getProducts] = useState([
+        { id: 1, title: 'Buah', price: 50000},
+        { id: 2, title: 'Beras', price: 122000}
+    ]);
+
+<?= 8. Looping array ?>
+
+    gunakan map() dengan parameter sama seperti $products as $product
+    <ul>
+        {
+          products.map((product) => (
+            <li key={ product.id } >{ product.title } - { product.price }</li>
+          ))
+        }
+    </ul>
+
+<?= 9. Props ?>
+
+    lempar parameter ke dalam components pada return
+    <Header products={ products }>
+    ambil parameter pada components
+    const ProductList = (products) => {
+
+<?= 10. UseEffect ?>
+
+    fungsi yang dijalankan saat pertamakali load dan ketika variabel [title] ada perubahan DOM
+    useEffect( ()=> {
+        console.log("Nama Berubah")
+    }, [title]) = menyesuaikan
+
+<?= 11. React Router DOM ?>
+
+    ketikan pada CMD lalu import pada App.js
+    npm install react-router-dom 
+    import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+    buat struktur 
+    <Router>
+        <Routes>
+          <Route exact path="/" element={<Home/>} /> 
+          <Route path="/about" element={<About/>} />
+          <Route path="/contact" element={<Contact/>} />
+        </Routes>
+    </Router>
+    dengan element wajib sebuah components react 
+
+<?= 12. Href tanpa Refresh dengan Link ?>
+
+    import dulu di App.js/ component
+    import { Link } from 'react-router-dom';
+    lalu ganti <a tag menjadi 
+    <Link to="/">Home</Link>
+    jika di dalam component maka pindahkan import ke dalam component
+
+<?= 13. Bulma CSS ?>
+
+    ketikan pada CMD lalu import pada App.js
+    npm install bulma
+    import "bulma/css/bulma.css"
+    class yang bisa digunakan antara lain "button is-primary table is-striped"
+    
+
+<?= 14. JSON Server ?>
+
+    buat file .json di root project, contoh products.json 
+    buat data dengan struktur json 
+    {
+        "products" : [
+            {
+                "id" : 1 = pastikan memiliki ID, jika tidak akan error saat insert
+                "name" : "reza",
+                "class" : "it"
+            }
+        ]
+    }
+    ketikan pada terminal
+    npx json-server --watch products.json --port 8080
+
+<?= 15. Fetch Get Data ?>
+
+    import { useState, useEffect } from 'react' 
+    const [marvelList, setMarvelList] = useState([]) = variabel array data dari DB dengan default array kosong []
+    useEffect( ()=> {
+        fetchData();
+    }, []) = akan jalan pertamakali saat page load
+    const fecthData = async() => {
+        const response = await fetch('http://localhost:8080/products') = ambil fetch dari link yang return JSON
+        const data = await response.json() = masukan data JSON ke dalam variabel data
+        setMarvelList(data) = update variabel marvelList yang tadinya useState kosong [] menjadi array yang ada isinya 
+    }
+    loop dengan map()
+    marvelList.map((ml, index) => (
+        <div> { ml.name } </div>
+    }
+
+<?= 16. Insert Data JSON ?>
+
+    deklarasi semua variabel
+    const [name, setName] = useState('');
+    isikan pada input form 
+    value={ name }
+    onChange={ ( (e) => setName(e.target.value) ) } = wajib kalo tidak gabisa di edit
+    tambahkan pada tag <form 
+    onSubmit={ saveForm }
+    buat fungsi sebelum return
+    let saveForm = async (e) => { = wajib async untuk fungsi await, dan e
+        e.preventDefault(); = agar form tidak refresh ketika onclick 
+        const product = { name, kelas };
+        await fetch('http://localhost:8080/products',{ = struktur wajib sama seperti ini
+            headers:{
+                'Content-type' : 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(product),
+        });
+    }
+
+<?= 17. Navigate / Redirect ?>
+
+    deklarasikan
+    import { useNavigate } from 'react-router-dom' 
+    const navigate = useNavigate();
+    pindah dengan
+    navigate('/') = /namaComponent
+
+<?= 18. Show Edit Data ?>
+
+    tambahkan di dalam button edit 
+    <Link to={'/editProduct/'+ml.id}>Edit</Link>
+    tambahkan di router 
+    <Route path="/editProduct/:id" element={<EditProduct/>} />
+    buat file dan function EditProduct, isinya bisa copas dari addProduct, untuk var name dll
+    ambil id dengan
+    import { useParams } from 'react-router-dom' 
+    const { id } = useParams(); 
+    buat fungsi shownya
+    let getData = async () => {
+        const response = await fetch(`http://localhost:8080/products/${ id }`);
+        const data = await response.json();
+        setName(data.name);
+        setKelas(data.kelas);
+    }
+    dan panggil di dalam useEffect 
+    useEffect( () => {
+        getData();
+    },[]);
+
+<?= 19. Save Edit Data ?>
+
+    tulis pada tag <form 
+    onSubmit={ updateData }
+    buat fungsinya 
+    let updateData = async (e) => {
+        e.preventDefault();
+        const product = { name, kelas };
+        await fetch(`http://localhost:8080/products/${ id }`,{
+            method: "PUT",
+            body: JSON.stringify(product),
+            headers:{
+                'Content-type' : 'application/json'
+            }
+        });
+        navigate('/');
+    }
+
+<?= 20. Delete Data ?>
+
+    pada tombol delete
+    onClick={ () => deleteData(ml.id) }
+    buat fungsinya
+    const deleteData = async(id) => { = menangkap id nya 
+        await fetch(`http://localhost:8080/products/${ id }`,{
+            method: "DELETE", = sisakah method dan headers aja, body bisa dihapus
+            headers:{
+                'Content-type' : 'application/json'
+            }
+        });
+        fetchData(); = ketika berhasil panggil load data lagi, bisa pake navigate juga kalo mau redirect
+    }
+
+
+<?= 21. Deploy To Production ?>
+
+    ketikan pada terminal
+    npm run build
+    copy folder baru yang muncul yaitu "build" ke production
+    test foldernya dengan 
+    kalo error permission pake sudo
+    npm install -g serve 
+    serve -s build
+
+===================================================================================================================================================

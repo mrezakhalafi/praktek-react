@@ -1,0 +1,28 @@
+{
+  "movies": [
+    {
+      "judul": "The Avengers : Endgame",
+      "tahun": "2019",
+      "nilai": "9.5",
+      "id": 1
+    },
+    {
+      "id": 2,
+      "judul": "Justice League",
+      "tahun": "2017",
+      "nilai": "8.4"
+    },
+    {
+      "judul": "Harry Potter Sacred",
+      "tahun": "2008",
+      "nilai": "6.0",
+      "id": 3
+    },
+    {
+      "judul": "Donald Bebek",
+      "tahun": "1952",
+      "nilai": "7.0",
+      "id": 4
+    }
+  ]
+}
